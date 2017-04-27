@@ -8,7 +8,11 @@ from tensorflow.python import *
 from keras.models import Sequential
 from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D
 from keras.layers.core import Flatten
-
+import pickle
+from PIL import Image
+import json, codecs
+from numpy import savetxt
+# import tensorflow as tf
 
 
 #ndimage.imread("filename")
@@ -22,40 +26,82 @@ def train_label_img(img):
 
 def main():
     pictures = ls("/scratch/tkyaw1/train/")
+
+    maxWidth = 0
+    maxHeight = 0
+    for p in pictures:
+        filename = "/scratch/tkyaw1/train/" + p
+        im = Image.open(filename)
+        width = im.size[0] # im.size returns (width, height) tuple
+        height = im.size[1]
+        if width>maxWidth:
+            maxWidth = width
+        if height>maxHeight:
+            maxHeight = height
+
     xtrain = []
     ytrain = []
+    i= 0
     for pic in pictures:
-        trainPic = []
+        if i==2000:
+            break
+        # trainPic = []
+        trainPic = np.zeros([maxHeight, maxWidth, 3])
         filename = "/scratch/tkyaw1/train/" + pic
         a = ndimage.imread(filename)
+        print a.shape
+        im = Image.open(filename)
+        pWidth = im.size[0]
+        pHeight = im.size[1]
+        trainPic[0:pHeight,0:pWidth, 0:3] = a
+        # plt.imshow(a)
+        # plt.show()
         label = train_label_img(filename)
         ytrain.append(label)
-        trainPic.append(a)
+        # trainPic.append(a) #what is this???
         xtrain.append(trainPic)
+        i+=1
+    # xtrain = np.array(xtrain)
+    # print a
+    # ytrain = np.array(ytrain)
+    plt.imshow(a)
+    plt.show()
+
+
+    # with open('outfile', 'w') as fp:
+    #     pickle.dump(xtrain)
+    # savetxt("output.txt", xtrain)
+
+    # b = xtrain.tolist()
+    # print b[0]
+    # with open('data.txt', 'w') as outfile:
+    #     json.dump(b, outfile)
+
+    # for pic in xtrain:
+
+
     # plt.imshow(a)
     # plt.show()
 
-    pictures = ls("/scratch/tkyaw1/test/")
-    xtest = []
-    for pic in pictures:
-        testPic = []
-        filename = "/scratch/tkyaw1/test/" + pic
-        a = ndimage.imread(filename)
-        testPic.append(a)
-        xtest.append(testPic)
+    # pictures = ls("/scratch/tkyaw1/test/")
+    # xtest = []
+    # for pic in pictures:
+    #     testPic = []
+    #     filename = "/scratch/tkyaw1/test/" + pic
+    #     a = ndimage.imread(filename)
+    #     testPic.append(a)
+    #     xtest.append(testPic)
 
     print "data shapes"
-    print "  xtrain:", np.array(xtrain).shape
-    print "  xtest:", np.array(xtest).shape
-    print "  ytrain:", np.array(ytrain).shape
-    print "  ytest: don't have it. check with bryce"
+    print "  xtrain:", xtrain.shape
+    # print "  xtrain:", xtrain.dtype
+    # print "  xtest:", np.array(xtest).shape
+    print "  ytrain:", ytrain.shape
+    # print "  ytest: don't have it."
 
-    model = Model(inputs=[xtrain], outputs=[ytrain])
+    # model = Model(inputs=[xtrain], outputs=[ytrain])
 
 
-    # neural_net = Sequential()
-    # rows, cols = x_train.shape[1:]
-    # neural_net.add(Flatten(input_shape = (28,28,1))) #added
     # neural_net.add(Dense(512, activation = 'hard_sigmoid')) #added
     # neural_net.add(Dropout(0.2)) #added
     # neural_net.add(Dense(10, activation='softmax'))
@@ -66,6 +112,8 @@ def main():
     #
     # loss, accuracy = neural_net.evaluate(x_test_images, y_test_vectors, verbose=0)
     # print "accuracy: {}%".format(accuracy*100)
+
+    # keras.layers.core.Dropout(rate, noise_shape=None, seed=None)
 main()
 
 # TRAIN_DIR = '/scratch/tkyaw1/train'
