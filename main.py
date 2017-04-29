@@ -5,37 +5,39 @@ from scipy import ndimage
 from PIL import Image
 
 from keras.models import Sequential
-from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D
+from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D, AveragePooling2D, Flatten
 
 # TODO: load test file (if you want)
 
 def main():
-    xtrain1 = np.load('/scratch/tkyaw1/outfile.npz')
+    xtrain1 = np.load('/scratch/tkyaw1/outfile0.npz')
     ytrain1 = np.load('/scratch/tkyaw1/labels.npz')
     neural_net = Sequential()
 
-    # neural_net.add(Conv2D())
-    # TODO: how to add conv/dropout layers. neural net fit dimensions??
-    # TODO: first input to dense layer? also, how to do the .files is not relying on ['arr_0']
-    
-    neural_net.add(Dense(512, activation = 'hard_sigmoid', input_shape = (768, 1050, 3)))
-    # neural_net.add(Dropout(0.2)) #added
-    # neural_net.add(Dense(10, activation='softmax'))
+    neural_net.add(AveragePooling2D(pool_size=(4, 4), strides=None, padding='valid', data_format=None, input_shape = (768, 1050, 3)))
+    neural_net.add(Conv2D(32, (3, 3)))
+    #
+    # neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None, input_shape = (768, 1050, 3)))
+    # neural_net.add(Conv2D(32, (3, 3)))
+    #
+    # neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None, input_shape = (768, 1050, 3)))
+    # neural_net.add(Conv2D(32, (3, 3)))
+    #
+    neural_net.add(Flatten())
+    neural_net.add(Dense(2, activation = 'relu'))
+    # neural_net.add(Dropout(0.2))
+
     neural_net.summary()
-    # xtrain = xtrain1.files
-    # ytrain = ytrain1.files
+
     xtrainfinal = xtrain1['arr_0']
     ytrainfinal = ytrain1['arr_0']
-    # print x
+
     neural_net.compile(optimizer="Adam", loss="categorical_crossentropy", metrics=['accuracy'])
+    history = neural_net.fit(xtrainfinal, ytrainfinal[:1000,:], verbose=1, epochs=5) #validation_data=(xtrainfinal, ytrainfinal[:1000,:]),
+    loss, accuracy = neural_net.evaluate(xtrainfinal, ytrainfinal[:1000,:], verbose=0)
+    print "accuracy: {}%".format(accuracy*100)
 
-
-    # history = neural_net.fit(xtrain1, ytrain1, verbose=1, validation_data=(xtrainfinal, ytrainfinal), epochs=10)
-
-    loss, accuracy = neural_net.evaluate(xtrainfinal, ytrainfinal, verbose=0)
-    # print "accuracy: {}%".format(accuracy*100)
-
-    keras.layers.core.Dropout(rate, noise_shape=None, seed=None)
+    # keras.layers.core.Dropout(rate, noise_shape=None, seed=None)
 main()
 
 # TRAIN_DIR = '/scratch/tkyaw1/train'
@@ -60,7 +62,7 @@ main()
 #     np.save('/scratch/tkyaw1/test_data.npy', test_data)
 #     return test_data
 #
-#
+#,
 # def create_train_data():
 #     train_data = []
 #     for img in os.listdir(TRAIN_DIR):
