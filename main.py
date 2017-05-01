@@ -3,38 +3,87 @@ from os import listdir as ls
 import matplotlib.pyplot as plt
 from scipy import ndimage
 from PIL import Image
+from numpy import argmax
 
 from keras.models import Sequential
 from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D, AveragePooling2D, Flatten
 
 # TODO: load test file (if you want)
+# TODO: normalize everything!!!!!!!!!!!!! TODO TODO TODO  TODO
+# NOTE: relu for non output layers, sigmoid for output layers ?? not sure y
+# NOTE: adding another pair of pooling/conv layer dropped accuracy a lot
 
 def main():
-    xtrain1 = np.load('/scratch/tkyaw1/outfile0.npz')
-    ytrain1 = np.load('/scratch/tkyaw1/labels.npz')
+    #y_train_vectors = to_categorical(y_train, num_categories)
+    #y_test_vectors = to_categorical(y_test, num_categories)
+
+
+    xtrain1 = np.load('/scratch/tkyaw1/sampleSubset.npz')
+    ytrain1 = np.load('/scratch/tkyaw1/sampleLabels.npz')
+
+    # x_test_images = (x_test.reshape(10000, 28, 28, 1) - x_min) / float(x_max - x_min)
+
     neural_net = Sequential()
 
-    neural_net.add(AveragePooling2D(pool_size=(4, 4), strides=None, padding='valid', data_format=None, input_shape = (768, 1050, 3)))
-    neural_net.add(Conv2D(32, (3, 3)))
-    #
-    # neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None, input_shape = (768, 1050, 3)))
-    # neural_net.add(Conv2D(32, (3, 3)))
-    #
-    # neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None, input_shape = (768, 1050, 3)))
-    # neural_net.add(Conv2D(32, (3, 3)))
-    #
+    neural_net.add(AveragePooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
+    neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
+
+    neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
+    neural_net.add(Conv2D(32, (3, 3), activation = 'relu'))
+
+    neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
+    neural_net.add(Conv2D(32, (3, 3), activation = 'relu'))
+    neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
+
     neural_net.add(Flatten())
-    neural_net.add(Dense(2, activation = 'relu'))
-    # neural_net.add(Dropout(0.2))
+    neural_net.add(Dense(32, activation = 'relu'))
+    neural_net.add(Dropout(0.5))
+    neural_net.add(Dense(2, activation = 'sigmoid'))
+    #neural_net.add(Dropout(0.2))
+
+
+    """
+    #####
+    neural_net = Sequential()
+
+    neural_net.add(AveragePooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
+    neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
+    neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
+
+    neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
+    neural_net.add(Dropout(0.25))
+
+    neural_net.add(Conv2D(32, (3, 3), activation = 'relu'))
+    neural_net.add(Conv2D(32, (3, 3), activation = 'relu'))
+
+    neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
+    neural_net.add(Dropout(0.25))
+
+    neural_net.add(Flatten())
+    neural_net.add(Dense(32, activation = 'relu'))
+    neural_net.add(Dropout(0.5))
+    neural_net.add(Dense(2, activation = 'sigmoid'))
+    #neural_net.add(Dropout(0.2))
+    #####
+    """
 
     neural_net.summary()
 
     xtrainfinal = xtrain1['arr_0']
     ytrainfinal = ytrain1['arr_0']
+    x_max = xtrainfinal.max()
+    x_min = xtrainfinal.min()
+    xtrainfinal = (xtrainfinal - float(x_min)) / float(x_max - x_min)
 
     neural_net.compile(optimizer="Adam", loss="categorical_crossentropy", metrics=['accuracy'])
-    history = neural_net.fit(xtrainfinal, ytrainfinal[:1000,:], verbose=1, epochs=5) #validation_data=(xtrainfinal, ytrainfinal[:1000,:]),
+    history = neural_net.fit(xtrainfinal, ytrainfinal[:1000,:], verbose=1, epochs=10) #validation_data=(xtrainfinal, ytrainfinal[:1000,:]),
     loss, accuracy = neural_net.evaluate(xtrainfinal, ytrainfinal[:1000,:], verbose=0)
+    #plt.imshow(xtrainfinal[0])
+    #plt.show()
+    print "correct answer:", ytrainfinal[0]
+    prediction = neural_net.predict(xtrainfinal)
+    print "prediction:", prediction
+    #print "nn output", argmax(neural_net.predict(xtrainfinal)[0])
     print "accuracy: {}%".format(accuracy*100)
 
     # keras.layers.core.Dropout(rate, noise_shape=None, seed=None)

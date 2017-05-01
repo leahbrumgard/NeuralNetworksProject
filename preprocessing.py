@@ -93,7 +93,7 @@ def main():
         label = train_label_img(filename)
         ytrain.append(label)
     np.savez_compressed('/scratch/tkyaw1/labels' + str(0)+ '.npz', ytrain)
-    
+
 
     # ytrain = []
     # for pic in pictures:
