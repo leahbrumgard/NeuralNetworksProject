@@ -36,12 +36,11 @@ def main():
         if height>maxHeight:
             maxHeight = height
 
-    #TODO: the last 1024
     ytrain = []
-    for chunk in range(1,19):
+    for chunk in range(39):
         xtrain = []
-        start = 1000
-        end = 2000
+        start = 0
+        end = 500
         for pic in pictures[start:end]:
             # trainPic = []
             trainPic = np.zeros([maxHeight, maxWidth, 3])
@@ -51,20 +50,18 @@ def main():
             pWidth = im.size[0]
             pHeight = im.size[1]
             trainPic[0:pHeight,0:pWidth, :] = a
-            # plt.imshow(a)
-            # plt.show()
+            trainPic = trainPic / float(255)
             label = train_label_img(filename)
             ytrain.append(label)
-            # trainPic.append(a) #what is this???
             xtrain.append(trainPic)
-            start += 1000
-            end += 1000
+            start += 500
+            end += 500
         np.savez_compressed('/scratch/tkyaw1/outfile'+ str(chunk) + '.npz', xtrain)
         np.savez_compressed('/scratch/tkyaw1/labels' + str(chunk) + '.npz', ytrain)
 
     ytrain = []
     xtrain = []
-    start = 19000
+    start = 19500
     end = 20024
     for pic in pictures[start:end]:
         # trainPic = []
@@ -75,31 +72,23 @@ def main():
         pWidth = im.size[0]
         pHeight = im.size[1]
         trainPic[0:pHeight,0:pWidth, :] = a
-        # plt.imshow(a)
-        # plt.show()
+        trainPic = trainPic / float(255)
         label = train_label_img(filename)
         ytrain.append(label)
-        # trainPic.append(a) #what is this???
-
-        x_min = 0
-        x_max = 255
-        trainPic = (trainPic - float(x_min)) / float(x_max - x_min)
-
         xtrain.append(trainPic)
 
+    np.savez_compressed('/scratch/tkyaw1/outfile'+ str(39) + '.npz', xtrain)
+    np.savez_compressed('/scratch/tkyaw1/labels' + str(39) + '.npz', ytrain)
 
-    np.savez_compressed('/scratch/tkyaw1/outfile'+ str(19) + '.npz', xtrain)
-    np.savez_compressed('/scratch/tkyaw1/labels' + str(19) + '.npz', ytrain)
-
-    ytrain = []
-    start = 0
-    end = 1000
-    for pic in pictures[start:end]:
-        # trainPic = []
-        filename = "/scratch/tkyaw1/train/" + pic
-        label = train_label_img(filename)
-        ytrain.append(label)
-    np.savez_compressed('/scratch/tkyaw1/labels' + str(0)+ '.npz', ytrain)
+    # ytrain = []
+    # start = 0
+    # end = 1000
+    # for pic in pictures[start:end]:
+    #     # trainPic = []
+    #     filename = "/scratch/tkyaw1/train/" + pic
+    #     label = train_label_img(filename)
+    #     ytrain.append(label)
+    # np.savez_compressed('/scratch/tkyaw1/labels' + str(0)+ '.npz', ytrain)
 
 
     # ytrain = []

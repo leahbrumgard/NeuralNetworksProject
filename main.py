@@ -13,16 +13,7 @@ from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D, AveragePooling2D,
 # NOTE: relu for non output layers, sigmoid for output layers ?? not sure y
 # NOTE: adding another pair of pooling/conv layer dropped accuracy a lot
 
-def train(xtrainfinal, ytrainfinal):
-    #y_train_vectors = to_categorical(y_train, num_categories)
-    #y_test_vectors = to_categorical(y_test, num_categories)
-
-
-    # xtrain1 = np.load('/scratch/tkyaw1/sampleSubset.npz')
-    # ytrain1 = np.load('/scratch/tkyaw1/sampleLabels.npz')
-
-    # x_test_images = (x_test.reshape(10000, 28, 28, 1) - x_min) / float(x_max - x_min)
-
+def settingItUp():
     neural_net = Sequential()
 
     neural_net.add(AveragePooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
@@ -35,12 +26,6 @@ def train(xtrainfinal, ytrainfinal):
     neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
     neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid'))
 
-    # neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
-    # neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
-
-    # neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
-    # neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
-
     neural_net.add(Flatten())
     neural_net.add(Dense(32, activation = 'relu'))
     neural_net.add(Dropout(0.5))
@@ -49,15 +34,11 @@ def train(xtrainfinal, ytrainfinal):
     neural_net.summary()
 
     neural_net.compile(optimizer="Adam", loss="categorical_crossentropy", metrics=['accuracy'])
-    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=1) #validation_data=(xtrainfinal, ytrainfinal[:1000,:]),
 
     return neural_net
-    #plt.imshow(xtrainfinal[0])
-    #plt.show()
-    print "correct answer:", ytrainfinal[0]
-    prediction = neural_net.predict(xtrainfinal)
-    print "prediction:", prediction
-    print "accuracy: {}%".format(accuracy*100)
+
+def train(xtrainfinal, ytrainfinal):
+    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=1)
 
 def test(xtest, ytest, neural_net):
     """Reports the fraction of the test set that is correctly classified.
@@ -66,51 +47,75 @@ def test(xtest, ytest, neural_net):
     is compared to the corresponding element of y_test. The fraction that
     are classified correctly is tracked and returned as a float.
     """
-    # correct = 0
-    # labels = neural_net.predict(xtest)
-    # for i in range(len(ytest)):
-    #     if labels[i] == ytest[i]:
-    #         correct += 1
     loss, accuracy = neural_net.evaluate(xtest, ytest, verbose=0)
-
     return accuracy
 
 def crossValidation():
+    neural_net = settingItUp()
     folds = 5
-    # files = []
-    # labels = []
-    # for j in range(20):
-    #     files.append("/scratch/tkyaw1/outfile" + str(j) + ".npz")
-    #     labels.append("/scratch/tkyaw1/labels" + str(j) + ".npz")
-    # files = np.array(files)
-    # labels = np.array(labels)
+    files = []
+    labels = []
+    for j in range(20):
+        files.append("/scratch/tkyaw1/outfile" + str(j) + ".npz")
+        labels.append("/scratch/tkyaw1/labels" + str(j) + ".npz")
+    files = np.array(files)
+    labels = np.array(labels)
 
     # filesSmallSubset = "/scratch/tkyaw1/smallSubset.npz"
     # labelsSmallSubset = "/scratch/tkyaw1/smallLabels.npz"
-    xtrain1 = np.load('/scratch/tkyaw1/sampleSubset.npz')
-    ytrain1 = np.load('/scratch/tkyaw1/sampleSubset.npz')
-    xtrainfinal = xtrain1['arr_0']
-    ytrainfinal = ytrain1['arr_0']
-    x_max = xtrainfinal.max()
-    x_min = xtrainfinal.min()
-    xtrainfinal = (xtrainfinal / float(255))
+
 
     percentlist = []
     for i in range(5):
-        # b = zeros(20, dtype = bool)
-        b = zeros(1000, dtype = bool)
+        b = zeros(20, dtype = bool)
+
+        #loop through outfiles that will be used for testing
+        # datalen = 0
+        # for t in range(4):
+        #     d = xtest['arr_0'][0] #TODO: Change
+        #     datalen += d
+        # b = zeros(datalen, dtype = bool)
         bcopy = b
-        bcopy[i*4: (i+1)*4] = True
-        xtrain = xtrainfinal[logical_not(bcopy)]
-        trainLabels = ytrainfinal[logical_not(bcopy)]
-        xtest = xtrainfinal[bcopy]
-        testLabels = ytrainfinal[bcopy]
+        start = i*4
+        end = (i+1) * 4
+        bcopy[start:end] = True
 
-        # training
-        neural_net = train(xtrainfinal, ytrainfinal)
+        xtrain = files[logical_not(bcopy)]
+        trainLabels = labels[logical_not(bcopy)]
+        xtest = files[bcopy]
+        testLabels = labels[bcopy]
 
+        for i in range(len(xtrain)):
+            print xtrain[i]
+            outfile = np.load(xtrain[i])
+            # outfile.files
+            loadedOutfile = outfile['arr_0']
+
+            labels = np.load(trainLabels[i])
+            labels.files
+            loadedLabels = labels['arr_0']
+
+            loadedOutfile = (loadedOutfile / float(255)) #TODO: take out normaliz
+
+            # training
+            neural_net = train(loadedOutfile, loadedLabels)
+
+        foldAccs = []
+        for i in range(len(xtest)):
+            outfile = np.load(xtest[i])
+            outfile.files
+            loadedOutfile = outfile['arr_0']
+
+            labels = np.load(testLabels[i])
+            labels.files
+            loadedLabels = labels['arr_0']
+
+            loadedOutfile = (loadedOutfile / float(255))
+            foldAcc = test(loadedOutfile, loadedLabels, neural_net)
+            foldAccs.append(foldAcc)
+
+        accuracy = sum(foldAccs)/float(len(foldAccs))
         #testing
-        accuracy = test(xtest, testLabels, neural_net)
         percentlist.append(accuracy)
 
     average = sum(percentlist)/float(len(percentlist))
