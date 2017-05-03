@@ -80,7 +80,14 @@ def main():
         label = train_label_img(filename)
         ytrain.append(label)
         # trainPic.append(a) #what is this???
+
+        x_min = 0
+        x_max = 255
+        trainPic = (trainPic - float(x_min)) / float(x_max - x_min)
+
         xtrain.append(trainPic)
+
+
     np.savez_compressed('/scratch/tkyaw1/outfile'+ str(19) + '.npz', xtrain)
     np.savez_compressed('/scratch/tkyaw1/labels' + str(19) + '.npz', ytrain)
 
