@@ -1,0 +1,22 @@
+/usr/lib/python2.7/dist-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
+  warnings.warn('Matplotlib is building the font cache using fc-list. This may take a moment.')
+Using TensorFlow backend.
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+Traceback (most recent call last):
+  File "main.py", line 109, in <module>
+    crossValidation()
+  File "main.py", line 53, in crossValidation
+    neural_net = settingItUp()
+  File "main.py", line 18, in settingItUp
+    neural_net.add(AveragePooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (768, 1050, 3)))
+  File "/usr/local/lib/python2.7/dist-packages/keras/layers/pooling.py", line 246, in __init__
+    dim_ordering, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/keras/layers/pooling.py", line 116, in __init__
+    super(_Pooling2D, self).__init__(**kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/keras/engine/topology.py", line 326, in __init__
+    raise TypeError('Keyword argument not understood:', kwarg)
+TypeError: ('Keyword argument not understood:', 'padding')

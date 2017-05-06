@@ -37,7 +37,7 @@ def settingItUp():
     return neural_net
 
 def train(xtrainfinal, ytrainfinal, neural_net):
-    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=15) #TODO: CHANGE?
+    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=10) #TODO: CHANGE?
 
 def test(xtest, ytest, neural_net):
     """Reports the fraction of the test set that is correctly classified.
@@ -52,16 +52,16 @@ def test(xtest, ytest, neural_net):
 def crossValidation():
     neural_net = settingItUp()
     folds = 5
-    files = []
-    labels = []
-    for j in range(40):
-        files.append("/scratch/tkyaw1/outfile" + str(j) + ".npz")
-        labels.append("/scratch/tkyaw1/labels" + str(j) + ".npz")
-    files = np.array(files)
-    labels = np.array(labels)
+    # files = []
+    # labels = []
+    # for j in range(40):
+    #     files.append("/scratch/tkyaw1/outfile" + str(j) + ".npz")
+    #     labels.append("/scratch/tkyaw1/labels" + str(j) + ".npz")
+    # files = np.array(files)
+    # labels = np.array(labels)
 
-    # filesSmallSubset = "/scratch/tkyaw1/smallSubset.npz"
-    # labelsSmallSubset = "/scratch/tkyaw1/smallLabels.npz"
+    filesSmallSubset = "/scratch/tkyaw1/smallSubset.npz"
+    labelsSmallSubset = "/scratch/tkyaw1/smallLabels.npz"
 
 
     percentlist = []

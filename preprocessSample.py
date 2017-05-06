@@ -16,18 +16,18 @@ from random import shuffle
 #plt.imshow(a)
 def train_label_img(img):
     word_label = img.split('.')[-3] #get dog/cat out of label
-    if word_label == "/scratch/tkyaw1/train/dog":
+    if word_label == "/scratch/tkyaw1/smallSubset/dog":
         return [0,1]
-    elif word_label == "/scratch/tkyaw1/train/cat":
+    elif word_label == "/scratch/tkyaw1/smallSubset/cat":
         return [1,0]
 
 def main():
-    pictures = ls("/scratch/tkyaw1/train/")
+    pictures = ls("/scratch/tkyaw1/smallSubset")
     shuffle(pictures)
     maxWidth = 0
     maxHeight = 0
     for p in pictures:
-        filename = "/scratch/tkyaw1/train/" + p
+        filename = "/scratch/tkyaw1/smallSubset/" + p
         im = Image.open(filename)
         width = im.size[0] # im.size returns (width, height) tuple
         height = im.size[1]
@@ -36,61 +36,28 @@ def main():
         if height>maxHeight:
             maxHeight = height
 
-
-    for chunk in range(39):
-        ytrain = []
-        #xtrain = []
-        start = 0
-        end = 500
-        for pic in pictures[start:end]:
-            # trainPic = []
-            # trainPic = np.zeros([maxHeight, maxWidth, 3])
-            filename = "/scratch/tkyaw1/train/" + pic
-            # a = ndimage.imread(filename)
-            # im = Image.open(filename)
-            # pWidth = im.size[0]
-            # pHeight = im.size[1]
-            # trainPic[0:pHeight,0:pWidth, :] = a
-            # trainPic = trainPic / float(255)
-            label = train_label_img(filename)
-            ytrain.append(label)
-            # xtrain.append(trainPic)
-            start += 500
-            end += 500
-        #np.savez_compressed('/scratch/tkyaw1/outfile'+ str(chunk) + '.npz', xtrain)
-        np.savez_compressed('/scratch/tkyaw1/labels' + str(chunk) + '.npz', ytrain)
-
+    #TODO: the last 1024
     ytrain = []
-    # xtrain = []
-    start = 19500
-    end = 20024
+    xtrain = []
+    start = 0
+    end = 1000
     for pic in pictures[start:end]:
         # trainPic = []
-        # trainPic = np.zeros([maxHeight, maxWidth, 3])
-        filename = "/scratch/tkyaw1/train/" + pic
-        # a = ndimage.imread(filename)
-        # im = Image.open(filename)
-        # pWidth = im.size[0]
-        # pHeight = im.size[1]
-        # trainPic[0:pHeight,0:pWidth, :] = a
-        # trainPic = trainPic / float(255)
+        trainPic = np.zeros([maxHeight, maxWidth, 3])
+        filename = "/scratch/tkyaw1/smallSubset/" + pic
+        a = ndimage.imread(filename)
+        im = Image.open(filename)
+        pWidth = im.size[0]
+        pHeight = im.size[1]
+        trainPic[0:pHeight,0:pWidth, :] = a
+        # plt.imshow(a)
+        # plt.show()
         label = train_label_img(filename)
         ytrain.append(label)
-        # xtrain.append(trainPic)
-
-    # np.savez_compressed('/scratch/tkyaw1/outfile'+ str(39) + '.npz', xtrain)
-    np.savez_compressed('/scratch/tkyaw1/labels' + str(39) + '.npz', ytrain)
-
-    # ytrain = []
-    # start = 0
-    # end = 1000
-    # for pic in pictures[start:end]:
-    #     # trainPic = []
-    #     filename = "/scratch/tkyaw1/train/" + pic
-    #     label = train_label_img(filename)
-    #     ytrain.append(label)
-    # np.savez_compressed('/scratch/tkyaw1/labels' + str(0)+ '.npz', ytrain)
-
+        # trainPic.append(a) #what is this???
+        xtrain.append(trainPic)
+    np.savez_compressed('/scratch/tkyaw1/smallSubset.npz', xtrain)
+    np.savez_compressed('/scratch/tkyaw1/smallLabels.npz', ytrain)
 
     # ytrain = []
     # for pic in pictures:
