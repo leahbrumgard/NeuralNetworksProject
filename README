@@ -20,3 +20,5 @@ Because we had 10 files, we created b with ten 'False' values.
 The start and end values should be changed according to the number of files
 and the number of folds. For example, if you have 40 files and 10 folds,
 start should be i*4 and end should be (i+1) * 4, so that each fold has ten files.
+
+#TODOOOOOOOOOOOOOOOO: EXPLAIN PREPROCESSINGGGGG!!!!!!!!!!!!!!!

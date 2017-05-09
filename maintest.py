@@ -37,7 +37,7 @@ def settingItUp():
     return neural_net
 
 def train(xtrainfinal, ytrainfinal, neural_net):
-    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=10)
+    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=5)
 
 def test(xtest, ytest, neural_net):
     """Reports the fraction of the test set that is correctly classified.
@@ -51,7 +51,7 @@ def test(xtest, ytest, neural_net):
 
 def crossValidation():
     neural_net = settingItUp()
-    folds = 10
+    folds = 2
     files = []
     labels = []
     for j in range(10):
@@ -68,8 +68,8 @@ def crossValidation():
         print "FOLD NUMBER:", i
         b = zeros(10, dtype = bool)
         bcopy = b
-        start = i*1
-        end = (i+1) * 1
+        start = i*5
+        end = (i+1) * 5
         bcopy[start:end] = True
 
         xtrain = files[logical_not(bcopy)]

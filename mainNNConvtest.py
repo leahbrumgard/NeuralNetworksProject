@@ -25,6 +25,9 @@ def settingItUp():
     neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
     neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid'))
 
+    neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
+    neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid'))
+
     neural_net.add(Flatten())
     neural_net.add(Dense(32, activation = 'relu'))
     neural_net.add(Dropout(0.5))
@@ -37,7 +40,7 @@ def settingItUp():
     return neural_net
 
 def train(xtrainfinal, ytrainfinal, neural_net):
-    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=10)
+    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=3)
 
 def test(xtest, ytest, neural_net):
     """Reports the fraction of the test set that is correctly classified.
@@ -51,10 +54,10 @@ def test(xtest, ytest, neural_net):
 
 def crossValidation():
     neural_net = settingItUp()
-    folds = 10
+    folds = 3
     files = []
     labels = []
-    for j in range(10):
+    for j in range(3):
         files.append("/scratch/tkyaw1/outfile" + str(j) + ".npz")
         labels.append("/scratch/tkyaw1/labels" + str(j) + ".npz")
     files = np.array(files)
@@ -66,7 +69,7 @@ def crossValidation():
     percentlist = []
     for i in range(folds):
         print "FOLD NUMBER:", i
-        b = zeros(10, dtype = bool)
+        b = zeros(3, dtype = bool)
         bcopy = b
         start = i*1
         end = (i+1) * 1
