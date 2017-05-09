@@ -59,44 +59,4 @@ def main():
     np.savez_compressed('/scratch/tkyaw1/smallSubset.npz', xtrain)
     np.savez_compressed('/scratch/tkyaw1/smallLabels.npz', ytrain)
 
-    # ytrain = []
-    # for pic in pictures:
-    #     filename = "/scratch/tkyaw1/train/" + pic
-    #     label = train_label_img(filename)
-    #     ytrain.append(label)
-    # np.savez_compressed('/scratch/tkyaw1/labels.npz', ytrain)
-
-
-        # for pic in xtrain:
-
-
-        # plt.imshow(a)
-        # plt.show()
-
-        # pictures = ls("/scratch/tkyaw1/test/")
-        # xtest = []
-        # for pic in pictures:
-        #     testPic = []
-        #     filename = "/scratch/tkyaw1/test/" + pic
-        #     a = ndimage.imread(filename)
-        #     testPic.append(a)
-        #     xtest.append(testPic)
-
-        # xtrain = np.array(xtrain)
-        # print a
-        # ytrain = np.array(ytrain)
-
-        # print trainPic
-        # plt.imshow(a)
-        # plt.show()
-        #
-        # plt.imshow(trainPic)
-        # plt.show()
-
-
-    # np.savez_compressed('/scratch/tkyaw1/outfile.npz', xtrain)
-    # a = np.load('outfile.npz')
-
-
-
 main()

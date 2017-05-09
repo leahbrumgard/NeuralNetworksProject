@@ -8,13 +8,14 @@ from numpy import argmax, zeros, logical_not
 from keras.models import Sequential
 from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D, AveragePooling2D, Flatten
 
+# TODO: load test file (if you want)
 # NOTE: relu for non output layers, sigmoid for output layers ?? not sure y
 # NOTE: adding another pair of pooling/conv layer dropped accuracy a lot
 
 def settingItUp():
     neural_net = Sequential()
 
-    neural_net.add(AveragePooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (768, 1050, 3)))
+    neural_net.add(AveragePooling2D(pool_size=(2, 2), strides=None, padding='valid', input_shape = (500, 500, 3)))
     neural_net.add(Conv2D(128, (3, 3), activation = 'relu'))
     neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid'))
 
@@ -36,7 +37,7 @@ def settingItUp():
     return neural_net
 
 def train(xtrainfinal, ytrainfinal, neural_net):
-    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=15)
+    history = neural_net.fit(xtrainfinal, ytrainfinal, verbose=1, epochs=10)
 
 def test(xtest, ytest, neural_net):
     """Reports the fraction of the test set that is correctly classified.
@@ -51,62 +52,46 @@ def test(xtest, ytest, neural_net):
 def crossValidation():
     neural_net = settingItUp()
     folds = 5
-    files = []
-    labels = []
-    for j in range(40):
-        files.append("/scratch/tkyaw1/outfile" + str(j) + ".npz")
-        labels.append("/scratch/tkyaw1/labels" + str(j) + ".npz")
-    files = np.array(files)
-    labels = np.array(labels)
+    # files = []
+    # labels = []
+    # for j in range(40):
+    #     files.append("/scratch/tkyaw1/sampleSubset" + str(j) + ".npz")
+    #     labels.append("/scratch/tkyaw1/sampleLabels" + str(j) + ".npz")
+    # files = np.array(files)
+    # labels = np.array(labels)
 
-    # filesSmallSubset = "/scratch/tkyaw1/smallSubset.npz"
-    # labelsSmallSubset = "/scratch/tkyaw1/smallLabels.npz"
+    files1 = np.load("/scratch/tkyaw1/sampleSubset.npz")
+    labels1 = np.load("/scratch/tkyaw1/sampleLabels.npz")
+
+    files = files1['arr_0']
+    labels = labels1['arr_0']
 
     percentlist = []
     for i in range(5):
         print "FOLD NUMBER:", i
-        b = zeros(40, dtype = bool)
+        b = zeros(1000, dtype = bool)
         bcopy = b
-        start = i*8
-        end = (i+1) * 8
+        start = i*200
+        end = (i+1) * 200
         bcopy[start:end] = True
 
         xtrain = files[logical_not(bcopy)]
         trainLabels = labels[logical_not(bcopy)]
         xtest = files[bcopy]
         testLabels = labels[bcopy]
-        print "xtrain:", xtrain
-        print "trainLabels:", trainLabels
-        print "xtest:", xtest
-        print "testLabels:", testLabels
 
-        for j in range(len(xtrain)):
-            outfile = np.load(xtrain[j])
-            loadedOutfile = outfile['arr_0']
-
-            labels = np.load(trainLabels[j])
-            loadedLabels = labels['arr_0']
-
-            # training
-            print "TRAINING XTRAIN [j]:", xtrain[j]
-            train(loadedOutfile, loadedLabels, neural_net)
+        print "TRAINING in FOLD ", i
+        train(xtrain, trainLabels, neural_net)
 
         foldAccs = []
-        for x in range(len(xtest)):
-            outfile = np.load(xtest[x])
-            loadedOutfile = outfile['arr_0']
-
-            labels = np.load(testLabels[x])
-            loadedLabels = labels['arr_0']
-
-            print "TESTING XTEST [x]:", xtest[x] #TODO: THIS WAS XTRAIN. DIDN'T RESTART THE NOHUP THOUGH.
-            foldAcc = test(loadedOutfile, loadedLabels, neural_net)
-            print "foldAcc:", foldAcc
-            foldAccs.append(foldAcc)
-
-        accuracy = sum(foldAccs)/float(len(foldAccs))
-        print "Accuracy over entire fold", accuracy
-        #testing
+        print "TESTING in FOLD ", i
+        accuracy = test(xtest, testLabels, neural_net)
+        # print "foldAcc:", foldAcc
+        # foldAccs.append(foldAcc)
+        #
+        # accuracy = sum(foldAccs)/float(len(foldAccs))
+        # print "Accuracy over entire fold", accuracy
+        # #testing
         percentlist.append(accuracy)
 
     average = sum(percentlist)/float(len(percentlist))

@@ -1,1 +1,22 @@
 Explain how to run your code here.
+
+Run main10Folds.py.
+
+You can adjust the number of epochs on line 40 in the train function.
+
+The neural network is already set up.
+
+If you want to change cross validation params, go to the crossValidation function.
+For example, you can change the number of folds there.
+
+We only chose to read in 10 files, so the for-loop only goes 10 times to
+append the files and labels, but if you want more files, simply change the
+number of times the for-loop runs.
+
+Lastly, in the folds for-loop, the input for the zeros function (when
+creating a numpy array called 'b') should reflect the number of files you input.
+Because we had 10 files, we created b with ten 'False' values.
+
+The start and end values should be changed according to the number of files
+and the number of folds. For example, if you have 40 files and 10 folds,
+start should be i*4 and end should be (i+1) * 4, so that each fold has ten files.

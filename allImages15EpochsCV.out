@@ -1,0 +1,84 @@
+Using TensorFlow backend.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+average_pooling2d_1 (Average (None, 384, 525, 3)       0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 382, 523, 128)     3584      
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 191, 261, 128)     0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 189, 259, 128)     147584    
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 94, 129, 128)      0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 92, 127, 64)       73792     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 46, 63, 64)        0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 185472)            0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 32)                5935136   
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 32)                0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 2)                 66        
+=================================================================
+Total params: 6,160,162.0
+Trainable params: 6,160,162.0
+Non-trainable params: 0.0
+_________________________________________________________________
+FOLD NUMBER: 0
+xtrain: ['/scratch/tkyaw1/outfile8.npz' '/scratch/tkyaw1/outfile9.npz'
+ '/scratch/tkyaw1/outfile10.npz' '/scratch/tkyaw1/outfile11.npz'
+ '/scratch/tkyaw1/outfile12.npz' '/scratch/tkyaw1/outfile13.npz'
+ '/scratch/tkyaw1/outfile14.npz' '/scratch/tkyaw1/outfile15.npz'
+ '/scratch/tkyaw1/outfile16.npz' '/scratch/tkyaw1/outfile17.npz'
+ '/scratch/tkyaw1/outfile18.npz' '/scratch/tkyaw1/outfile19.npz'
+ '/scratch/tkyaw1/outfile20.npz' '/scratch/tkyaw1/outfile21.npz'
+ '/scratch/tkyaw1/outfile22.npz' '/scratch/tkyaw1/outfile23.npz'
+ '/scratch/tkyaw1/outfile24.npz' '/scratch/tkyaw1/outfile25.npz'
+ '/scratch/tkyaw1/outfile26.npz' '/scratch/tkyaw1/outfile27.npz'
+ '/scratch/tkyaw1/outfile28.npz' '/scratch/tkyaw1/outfile29.npz'
+ '/scratch/tkyaw1/outfile30.npz' '/scratch/tkyaw1/outfile31.npz'
+ '/scratch/tkyaw1/outfile32.npz' '/scratch/tkyaw1/outfile33.npz'
+ '/scratch/tkyaw1/outfile34.npz' '/scratch/tkyaw1/outfile35.npz'
+ '/scratch/tkyaw1/outfile36.npz' '/scratch/tkyaw1/outfile37.npz'
+ '/scratch/tkyaw1/outfile38.npz' '/scratch/tkyaw1/outfile39.npz']
+trainLabels: ['/scratch/tkyaw1/labels8.npz' '/scratch/tkyaw1/labels9.npz'
+ '/scratch/tkyaw1/labels10.npz' '/scratch/tkyaw1/labels11.npz'
+ '/scratch/tkyaw1/labels12.npz' '/scratch/tkyaw1/labels13.npz'
+ '/scratch/tkyaw1/labels14.npz' '/scratch/tkyaw1/labels15.npz'
+ '/scratch/tkyaw1/labels16.npz' '/scratch/tkyaw1/labels17.npz'
+ '/scratch/tkyaw1/labels18.npz' '/scratch/tkyaw1/labels19.npz'
+ '/scratch/tkyaw1/labels20.npz' '/scratch/tkyaw1/labels21.npz'
+ '/scratch/tkyaw1/labels22.npz' '/scratch/tkyaw1/labels23.npz'
+ '/scratch/tkyaw1/labels24.npz' '/scratch/tkyaw1/labels25.npz'
+ '/scratch/tkyaw1/labels26.npz' '/scratch/tkyaw1/labels27.npz'
+ '/scratch/tkyaw1/labels28.npz' '/scratch/tkyaw1/labels29.npz'
+ '/scratch/tkyaw1/labels30.npz' '/scratch/tkyaw1/labels31.npz'
+ '/scratch/tkyaw1/labels32.npz' '/scratch/tkyaw1/labels33.npz'
+ '/scratch/tkyaw1/labels34.npz' '/scratch/tkyaw1/labels35.npz'
+ '/scratch/tkyaw1/labels36.npz' '/scratch/tkyaw1/labels37.npz'
+ '/scratch/tkyaw1/labels38.npz' '/scratch/tkyaw1/labels39.npz']
+xtest: ['/scratch/tkyaw1/outfile0.npz' '/scratch/tkyaw1/outfile1.npz'
+ '/scratch/tkyaw1/outfile2.npz' '/scratch/tkyaw1/outfile3.npz'
+ '/scratch/tkyaw1/outfile4.npz' '/scratch/tkyaw1/outfile5.npz'
+ '/scratch/tkyaw1/outfile6.npz' '/scratch/tkyaw1/outfile7.npz']
+testLabels: ['/scratch/tkyaw1/labels0.npz' '/scratch/tkyaw1/labels1.npz'
+ '/scratch/tkyaw1/labels2.npz' '/scratch/tkyaw1/labels3.npz'
+ '/scratch/tkyaw1/labels4.npz' '/scratch/tkyaw1/labels5.npz'
+ '/scratch/tkyaw1/labels6.npz' '/scratch/tkyaw1/labels7.npz']
+TRAINING XTRAIN [j]: /scratch/tkyaw1/outfile8.npz
+Epoch 1/15
+ 32/500 [>.............................] - ETA: 427s - loss: 0.6957 - acc: 0.4062 64/500 [==>...........................] - ETA: 402s - loss: 0.7380 - acc: 0.4219 96/500 [====>.........................] - ETA: 362s - loss: 0.7255 - acc: 0.4375128/500 [======>.......................] - ETA: 327s - loss: 0.7218 - acc: 0.4453160/500 [========>.....................] - ETA: 294s - loss: 0.7104 - acc: 0.5062192/500 [==========>...................] - ETA: 265s - loss: 0.7054 - acc: 0.5156224/500 [============>.................] - ETA: 236s - loss: 0.6867 - acc: 0.5536256/500 [==============>...............] - ETA: 207s - loss: 0.6819 - acc: 0.5703288/500 [================>.............] - ETA: 180s - loss: 0.6845 - acc: 0.5868320/500 [==================>...........] - ETA: 152s - loss: 0.6867 - acc: 0.5875352/500 [====================>.........] - ETA: 126s - loss: 0.6860 - acc: 0.5966384/500 [======================>.......] - ETA: 99s - loss: 0.6830 - acc: 0.5990 416/500 [=======================>......] - ETA: 71s - loss: 0.6845 - acc: 0.5938448/500 [=========================>....] - ETA: 44s - loss: 0.6847 - acc: 0.5938480/500 [===========================>..] - ETA: 17s - loss: 0.6864 - acc: 0.5896500/500 [==============================] - 425s - loss: 0.6864 - acc: 0.5920    
+Epoch 2/15
+ 32/500 [>.............................] - ETA: 398s - loss: 0.6597 - acc: 0.6562 64/500 [==>...........................] - ETA: 368s - loss: 0.6627 - acc: 0.6562 96/500 [====>.........................] - ETA: 342s - loss: 0.6706 - acc: 0.6250128/500 [======>.......................] - ETA: 312s - loss: 0.6648 - acc: 0.6328160/500 [========>.....................] - ETA: 286s - loss: 0.6673 - acc: 0.6125192/500 [==========>...................] - ETA: 258s - loss: 0.6745 - acc: 0.5885224/500 [============>.................] - ETA: 231s - loss: 0.6783 - acc: 0.5759256/500 [==============>...............] - ETA: 205s - loss: 0.6810 - acc: 0.5742288/500 [================>.............] - ETA: 178s - loss: 0.6787 - acc: 0.5764320/500 [==================>...........] - ETA: 153s - loss: 0.6739 - acc: 0.5875352/500 [====================>.........] - ETA: 125s - loss: 0.6676 - acc: 0.6051384/500 [======================>.......] - ETA: 98s - loss: 0.6667 - acc: 0.6094 416/500 [=======================>......] - ETA: 71s - loss: 0.6669 - acc: 0.6106448/500 [=========================>....] - ETA: 43s - loss: 0.6655 - acc: 0.6116480/500 [===========================>..] - ETA: 16s - loss: 0.6666 - acc: 0.6104500/500 [==============================] - 423s - loss: 0.6658 - acc: 0.6160    
+Epoch 3/15
+ 32/500 [>.............................] - ETA: 495s - loss: 0.6505 - acc: 0.6250 64/500 [==>...........................] - ETA: 417s - loss: 0.6595 - acc: 0.5938

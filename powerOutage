@@ -1,0 +1,32 @@
+
+We had several experiments:
+
+1. 1000 images with 50 epochs and 5 folds (nohupSample100.out)
+2. All files with 15 epochs and 5 folds. (final.out)
+3. 20 files with 10 epochs and 10 folds. (20FilesWith10Epochs.out)
+4.
+
+We wanted to run our neural network with 1000 images, partly to make sure that
+our cross validation and neural network code didn't break but also to conduct
+a short experiment on a small dataset. We made it run for 50 epochs, because
+we were only giving it a small amount of data. For later experiments, we would be
+adding more input data and training on fewer epochs. This experiment was really successful,
+because the accuracy after testing was really high (average accuracy over folds 0.994).
+
+Because of this, we decided to run another test with all files for 15 epochs and 5 folds. If you
+look at the results in final.out, the accuracy was really high during the training
+(high 90's) but dropped a lot during the testing period (low 30's). We think this
+was partly due to the fact that we had so many epochs that the network just
+memorized everything and couldn't generalize to the unseen data. The cross validation
+results suggested that over-fitting was occurring, so in our next experiment, we
+decreased the number of epochs to 10. But we also increased the folds to 10, because
+we were worried that the network was not given enough training data but instead was given
+too much testing data.
+
+We reran our program with 20 files (half of the dataset) with 10 epochs and 10 folds.
+We got through the first fold before the power outage. The accuracy over the
+entire first fold is 99% (0.993999999523). Although we only got through the first fold,
+this was a huge improvement from the first experiment, because we were able
+to attain a much higher accuracy.
+
+After the power outage, we ran the program with 10 files for 10 epochs using 10 folds. 
