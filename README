@@ -24,7 +24,7 @@ and the number of folds. For example, if you have 40 files and 10 folds,
 start should be i*4 and end should be (i+1) * 4, so that each fold has ten files.
 
 HOW WE PREPROCESSED THE DATA:
-We downloaded the data from the Cats Vs. Dogs competition on Kaggle. We used 20,024
+We downloaded the data from the Cats Vs. Dogs competition on Kaggle (https://www.kaggle.com/c/dogs-vs-cats). We used 20,024
 images from the train folder in the data set. We preprocessed the images by padding
 the smaller images with zeros to create a black border so that all the images had the
 same size. The final size of the images were 768 x 1050 pixels, each with RGB values.
