@@ -27,8 +27,8 @@ def settingItUp():
 
     neural_net.add(Flatten())
 
-    neural_net.add(Dense(32, activation = 'relu'))
-    neural_net.add(Dropout(0.5))
+    # neural_net.add(Dense(32, activation = 'relu'))
+    # neural_net.add(Dropout(0.5))
     neural_net.add(Dense(32, activation = 'relu'))
     neural_net.add(Dropout(0.5))
     neural_net.add(Dense(32, activation = 'relu'))

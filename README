@@ -1,5 +1,7 @@
 Explain how to run your code here.
 
+HOW TO RUN OUR CODE:
+
 Run main10Folds.py.
 
 You can adjust the number of epochs on line 40 in the train function.
@@ -21,4 +23,18 @@ The start and end values should be changed according to the number of files
 and the number of folds. For example, if you have 40 files and 10 folds,
 start should be i*4 and end should be (i+1) * 4, so that each fold has ten files.
 
-#TODOOOOOOOOOOOOOOOO: EXPLAIN PREPROCESSINGGGGG!!!!!!!!!!!!!!!
+HOW WE PREPROCESSED THE DATA:
+We downloaded the data from the Cats Vs. Dogs competition on Kaggle. We used 20,024
+images from the train folder in the data set. We preprocessed the images by padding
+the smaller images with zeros to create a black border so that all the images had the
+same size. 
+
+The data set that we used consisted of 25,000 jpg images of cats and dogs,
+from which we used 20,024 images for training. We preprocessed the images
+by padding smaller images with a black border so that all of the images
+were a consistent size. All of the final preprocessed images were 768 pixels
+by 1050 pixels and had all 3 channels of RGB colors. We also normalized
+the RGB colors, assuming that the minimum value was 0 and the maximum
+value was 255. After preprocessing all of the images, we wrote them into
+40 separate outfiles containing the shuffled photos, along with one file
+containing the corresponding labels for each photo.

@@ -28,6 +28,9 @@ def settingItUp():
     neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
     neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid'))
 
+    neural_net.add(Conv2D(64, (3, 3), activation = 'relu'))
+    neural_net.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid'))
+
     neural_net.add(Flatten())
     neural_net.add(Dense(32, activation = 'relu'))
     neural_net.add(Dropout(0.5))

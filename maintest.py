@@ -51,10 +51,10 @@ def test(xtest, ytest, neural_net):
 
 def crossValidation():
     neural_net = settingItUp()
-    folds = 2
+    folds = 5
     files = []
     labels = []
-    for j in range(10):
+    for j in range(20):
         files.append("/scratch/tkyaw1/outfile" + str(j) + ".npz")
         labels.append("/scratch/tkyaw1/labels" + str(j) + ".npz")
     files = np.array(files)
@@ -66,10 +66,10 @@ def crossValidation():
     percentlist = []
     for i in range(folds):
         print "FOLD NUMBER:", i
-        b = zeros(10, dtype = bool)
+        b = zeros(20, dtype = bool)
         bcopy = b
-        start = i*5
-        end = (i+1) * 5
+        start = i*4
+        end = (i+1) * 4
         bcopy[start:end] = True
 
         xtrain = files[logical_not(bcopy)]
@@ -110,6 +110,6 @@ def crossValidation():
         percentlist.append(accuracy)
 
     average = sum(percentlist)/float(len(percentlist))
-    print "Final Average Accuracy Over 10 Folds", average
+    print "Final Average Accuracy Over 5 Folds", average
 
 crossValidation()
